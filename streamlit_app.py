@@ -83,9 +83,9 @@ st.markdown(custom_chat_css, unsafe_allow_html=True)
 def display_messages(all_messages):
     for msg in all_messages:
         if msg['user'] == 'user':
-            message(f"You ({msg['time']}): {msg['text']}", css_classes=["message", "user"], key=int(time.time_ns()))
+            st.markdown(f'<div class="message user">You ({msg["time"]}): {msg["text"]}</div>', unsafe_allow_html=True)
         else:
-            message(f"Bot ({msg['time']}): {msg['text']}", css_classes=["message", "bot"], key=int(time.time_ns()))
+            st.markdown(f'<div class="message bot">Bot ({msg["time"]}): {msg["text"]}</div>', unsafe_allow_html=True)
 
 # Create a function to send messages
 def send_message(user_query, all_messages):
