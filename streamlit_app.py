@@ -5,6 +5,7 @@ import streamlit as st
 from datetime import datetime
 from streamlit_chat import message
 from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader
+import docx2txt
 
 
 st.markdown("<h1 style='text-align: center; color: red;'>Doc-Bot👋</h1>", unsafe_allow_html=True)
