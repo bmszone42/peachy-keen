@@ -60,7 +60,7 @@ def display_messages(all_messages):
                 f'You ({msg["time"]}): {msg["text"]}',
                 is_user=True,
                 avatar_style="adventurer",
-                seed=123,
+                seed=456,
             )
         else:
             message(
