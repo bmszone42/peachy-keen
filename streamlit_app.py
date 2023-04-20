@@ -166,6 +166,10 @@ if datafile is not None:
             if idx > 10:  # Limit the number of paragraphs displayed
                 break
 
+                
+    # Add this line before the "Create input text box for user to send messages" line
+    progress_bar_placeholder = st.empty()
+
     # Create input text box for user to send messages
     user_query = st.text_input("You: ","", key= "input")
 
