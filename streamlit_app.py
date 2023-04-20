@@ -53,24 +53,36 @@ def get_bot_response(user_query):
     response = index.query(user_query)
     return str(response)
 
+# Allow the user to select their own Avatar seed
+def select_avatar_seed():
+    if "user_avatar_seed" not in st.session_state:
+        st.session_state.user_avatar_seed = random.randint(100, 999)
+
+    st.sidebar.subheader("Avatar Settings")
+    user_avatar_seed = st.sidebar.number_input("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed)
+
+    st.session_state.user_avatar_seed = user_avatar_seed
+
+select_avatar_seed()
+
 # Create a function to display messages
 def display_messages(all_messages):
     for msg in all_messages:
-        seed = random.randint(100, 999)
+        bot_seed = random.randint(100, 999)
 
         if msg['user'] == 'user':
             message(
-                f'You (Seed: {seed}, Time: {msg["time"]}): {msg["text"]}',
+                f'You (Seed: {st.session_state.user_avatar_seed}, Time: {msg["time"]}): {msg["text"]}',
                 is_user=True,
                 avatar_style="adventurer",
-                seed=seed,
+                seed=st.session_state.user_avatar_seed,
             )
         else:
             message(
-                f'Bot (Seed: {seed}, Time: {msg["time"]}): {msg["text"]}',
+                f'Bot (Seed: {bot_seed}, Time: {msg["time"]}): {msg["text"]}',
                 is_user=False,
                 avatar_style="bottts",
-                seed=seed,
+                seed=bot_seed,
             )
             
 # Create a function to send messages
