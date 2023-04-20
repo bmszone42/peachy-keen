@@ -71,6 +71,8 @@ def get_bot_response(user_query):
 #             )
 
 def display_messages(all_messages):
+    style = "bottts"
+
     user_base_color = "f44336"
     user_eyes = 5
     user_face = 6
@@ -81,8 +83,8 @@ def display_messages(all_messages):
     bot_face = 4
     bot_mouth = 4
 
-    user_avatar_style = f"bottts?baseColor={user_base_color}&eyes={user_eyes}&face={user_face}&mouth={user_mouth}"
-    bot_avatar_style = f"bottts?baseColor={bot_base_color}&eyes={bot_eyes}&face={bot_face}&mouth={bot_mouth}"
+    user_avatar_style = f"{style}?baseColor={user_base_color}&eyes={user_eyes}&face={user_face}&mouth={user_mouth}"
+    bot_avatar_style = f"{style}?baseColor={bot_base_color}&eyes={bot_eyes}&face={bot_face}&mouth={bot_mouth}"
 
     for msg in all_messages:
         if msg['user'] == 'user':
