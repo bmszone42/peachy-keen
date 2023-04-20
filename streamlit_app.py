@@ -110,40 +110,6 @@ st.sidebar.title("Settings")
 select_avatar_seed()
 display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
 
-# st.sidebar.subheader("Theme")
-# theme = st.sidebar.radio("Choose your theme", ("Light", "Dark", "Crazy Llama"))
-
-# custom_theme_css = ""
-# if theme == "Dark":
-#     custom_theme_css = """
-#     <style>
-#         body {
-#             background-color: #1f1f1f;
-#             color: #ffffff;
-#         }
-#     </style>
-#     """
-# elif theme == "Crazy Llama":
-#     custom_theme_css = """
-#     <style>
-#         body {
-#             background-color: #ffffff;
-#             color: #1aff00;
-#         }
-#     </style>
-#     """
-# else:
-#     custom_theme_css = """
-#     <style>
-#         body {
-#             background-color: #ffffff;
-#             color: #000000;
-#         }
-#     </style>
-#     """
-
-# st.markdown(custom_theme_css, unsafe_allow_html=True)
-
 datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
 if datafile is not None:
     if not os.path.exists('./data'):
