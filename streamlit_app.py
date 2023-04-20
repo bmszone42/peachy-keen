@@ -15,6 +15,27 @@ import docx
 
 
 st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
+custom_css = """
+<style>
+    @keyframes float {
+        0% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+    h1 {
+        animation: float 3s ease-in-out infinite;
+    }
+</style>
+"""
+
+st.markdown(custom_css, unsafe_allow_html=True)
+
 
 buff, col, buff2 = st.columns([1,3,1])
 # openai_key = col.text_input('OpenAI Key:')
