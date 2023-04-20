@@ -58,6 +58,17 @@ if datafile is not None:
     index.save_to_disk('index.json')
 
     index = GPTSimpleVectorIndex.load_from_disk('index.json')
+    
+     # Add a file preview
+    st.markdown("**File Preview:**")
+    if datafile.type in ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']:
+        st.write("File preview is not available for PDF and Word documents.")
+    elif datafile.type in ['text/plain', 'application/rtf']:
+        content = datafile.read().decode('utf-8')
+        st.text_area("Preview", content, height=300)
+    elif datafile.type == 'text/csv':
+        df = pd.read_csv(datafile)
+        st.write(df.head())
 
     # Create input text box for user to send messages
     user_query = st.text_input("You: ","", key= "input")
