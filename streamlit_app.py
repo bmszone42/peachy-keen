@@ -66,10 +66,17 @@ def display_messages(all_messages):
 def send_message(user_query, all_messages):
     if user_query:
         all_messages.append({'user': 'user', 'time': datetime.now().strftime("%H:%M"), 'text': user_query})
+        
+        with st.progress(0) as progress_bar:
+            for i in range(100):
+                time.sleep(0.01)
+                progress_bar.progress(i + 1)
+                
         bot_response = get_bot_response(user_query)
         all_messages.append({'user': 'bot', 'time': datetime.now().strftime("%H:%M"), 'text': bot_response})
 
         st.session_state.all_messages = all_messages
+
         
 # Create a list to store messages
 st.sidebar.title("Settings")
