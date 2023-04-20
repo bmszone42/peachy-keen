@@ -54,13 +54,38 @@ def get_bot_response(user_query):
     response = index.query(user_query)
     return str(response)
 
+custom_chat_css = """
+<style>
+    .message {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 80%;
+    }
+    .message.user {
+        align-self: flex-end;
+        background-color: #4caf50;
+        color: #ffffff;
+    }
+    .message.bot {
+        align-self: flex-start;
+        background-color: #ffffff;
+        color: #000000;
+        border: 1px solid #4caf50;
+    }
+</style>
+"""
+st.markdown(custom_chat_css, unsafe_allow_html=True)
+
 # Create a function to display messages
 def display_messages(all_messages):
     for msg in all_messages:
         if msg['user'] == 'user':
-            message(f"You ({msg['time']}): {msg['text']}", is_user=True, key=int(time.time_ns()))
+            message(f"You ({msg['time']}): {msg['text']}", css_classes=["message", "user"], key=int(time.time_ns()))
         else:
-            message(f"Bot ({msg['time']}): {msg['text']}", key=int(time.time_ns()))
+            message(f"Bot ({msg['time']}): {msg['text']}", css_classes=["message", "bot"], key=int(time.time_ns()))
 
 # Create a function to send messages
 def send_message(user_query, all_messages):
