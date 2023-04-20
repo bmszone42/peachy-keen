@@ -7,6 +7,11 @@ from streamlit_chat import message
 from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader
 import docx2txt
 import PyPDF2
+from pdf2image import convert_from_path, convert_from_bytes
+from PIL import Image
+from io import BytesIO
+import docx
+
 
 
 st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
@@ -61,14 +66,17 @@ if datafile is not None:
     
      # Add a file preview
     st.markdown("**File Preview:**")
-    if datafile.type in ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']:
-        st.write("File preview is not available for PDF and Word documents.")
-    elif datafile.type in ['text/plain', 'application/rtf']:
-        content = datafile.read().decode('utf-8')
-        st.text_area("Preview", content, height=300)
-    elif datafile.type == 'text/csv':
-        df = pd.read_csv(datafile)
-        st.write(df.head())
+    if datafile.type == 'application/pdf':
+        images = convert_from_bytes(datafile.read())
+        for idx, img in enumerate(images):
+            st.subheader(f"Page {idx + 1}")
+            st.image(img, width=600)
+    elif datafile.type in ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']:
+        doc = docx.Document(BytesIO(datafile.read()))
+        for idx, paragraph in enumerate(doc.paragraphs):
+            st.write(paragraph.text)
+            if idx > 10:  # Limit the number of paragraphs displayed
+                break
 
     # Create input text box for user to send messages
     user_query = st.text_input("You: ","", key= "input")
