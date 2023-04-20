@@ -11,7 +11,7 @@ from pdf2image import convert_from_path, convert_from_bytes
 from PIL import Image
 from io import BytesIO
 import docx
-import random
+import requests
 
 st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
 custom_css = """
@@ -63,7 +63,17 @@ def select_avatar_seed():
 
     st.session_state.user_avatar_seed = user_avatar_seed
 
-select_avatar_seed()
+
+def display_avatar_in_sidebar(avatar_style, seed):
+    avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
+    response = requests.get(avatar_url)
+
+    if response.status_code == 200:
+        img = Image.open(BytesIO(response.content))
+        st.sidebar.image(img, caption="Your Avatar", use_column_width=True)
+    else:
+        st.sidebar.error("Error fetching avatar image.")
+
 
 # Create a function to display messages
 def display_messages(all_messages):
@@ -104,6 +114,9 @@ def send_message(user_query, all_messages):
      
 # Create a list to store messages
 st.sidebar.title("Settings")
+select_avatar_seed()
+display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
+
 # st.sidebar.subheader("Theme")
 # theme = st.sidebar.radio("Choose your theme", ("Light", "Dark", "Crazy Llama"))
 
