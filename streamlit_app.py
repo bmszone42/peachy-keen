@@ -87,22 +87,21 @@ def display_messages(all_messages):
     user_avatar_style = f"{user_style}?baseColor={user_base_color}&eyes={user_eyes}&face={user_face}&mouth={user_mouth}"
     bot_avatar_style = f"{bot_style}?baseColor={bot_base_color}&eyes={bot_eyes}&face={bot_face}&mouth={bot_mouth}"
 
-    chat_object = chat()
-
     for msg in all_messages:
         if msg['user'] == 'user':
-            chat_object.add_message(
+            message(
                 f"You ({msg['time']}): {msg['text']}",
-                sender_name="You",
-                avatar_url=f"https://avatars.dicebear.com/api/{user_avatar_style}",
+                is_user=True,
+                avatar_style=user_avatar_style,
+                seed=123,
             )
         else:
-            chat_object.add_message(
+            message(
                 f"Bot ({msg['time']}): {msg['text']}",
-                sender_name="Bot",
-                avatar_url=f"https://avatars.dicebear.com/api/{bot_avatar_style}",
+                is_user=False,
+                avatar_style=bot_avatar_style,
+                seed=456,
             )
-
     chat_object.display()
             
 # Create a function to send messages
