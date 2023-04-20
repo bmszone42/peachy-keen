@@ -3,7 +3,7 @@ import random
 import time
 import streamlit as st
 from datetime import datetime
-from streamlit_chat import message, chat
+from streamlit_chat import message
 from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader
 import docx2txt
 import PyPDF2
