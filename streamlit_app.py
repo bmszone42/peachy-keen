@@ -46,8 +46,8 @@ def send_message(user_query, all_messages):
         st.session_state.all_messages = all_messages
         
 # Create a list to store messages
-
-datafile = st.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
+st.sidebar.title("Settings")
+datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
 if datafile is not None:
     if not os.path.exists('./data'):
         os.mkdir('./data')
