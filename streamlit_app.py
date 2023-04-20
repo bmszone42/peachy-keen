@@ -67,7 +67,7 @@ select_avatar_seed()
 
 # Create a function to display messages
 def display_messages(all_messages):
-    for msg in all_messages:
+    for i, msg in enumerate(all_messages):
         bot_seed = random.randint(100, 999)
 
         if msg['user'] == 'user':
@@ -76,6 +76,7 @@ def display_messages(all_messages):
                 is_user=True,
                 avatar_style="adventurer",
                 seed=st.session_state.user_avatar_seed,
+                key=f'user_msg_{i}',
             )
         else:
             message(
@@ -83,6 +84,7 @@ def display_messages(all_messages):
                 is_user=False,
                 avatar_style="bottts",
                 seed=bot_seed,
+                key=f'bot_msg_{i}',
             )
             
 # Create a function to send messages
