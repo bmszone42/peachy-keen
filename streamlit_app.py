@@ -59,11 +59,10 @@ def select_avatar_seed():
         st.session_state.user_avatar_seed = random.randint(100, 999)
 
     st.sidebar.subheader("Avatar Settings")
-    #user_avatar_seed = st.sidebar.number_input("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed)
-    user_avatar_seed = st.sidebar.number_input("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed, width=int(st.sidebar.get_option("width") * 0.5))
+    col1, col2 = st.sidebar.beta_columns([2, 3])
+    user_avatar_seed = col1.number_input("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed)
 
     st.session_state.user_avatar_seed = user_avatar_seed
-
 
 def display_avatar_in_sidebar(avatar_style, seed):
     avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
