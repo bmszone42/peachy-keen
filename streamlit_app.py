@@ -52,58 +52,54 @@ def get_bot_response(user_query):
     response = index.query(user_query)
     return str(response)
 
-# custom_chat_css = """
-# <style>
-#     .message {
-#         display: flex;
-#         flex-direction: column;
-#         margin-bottom: 10px;
-#         padding: 10px;
-#         border-radius: 10px;
-#         max-width: 80%;
-#     }
-#     .message.user {
-#         align-self: flex-end;
-#         background-color: #4caf50;
-#         color: #ffffff;
-#     }
-#     .message.bot {
-#         align-self: flex-start;
-#         background-color: #ffffff;
-#         color: #000000;
-#         border: 1px solid #4caf50;
-#     }
-# </style>
-# """
-# st.markdown(custom_chat_css, unsafe_allow_html=True)
-
-
-# Create a function to display messages
-def display_messages(all_messages):
-    for msg in all_messages:
-        if msg['user'] == 'user':
-            message(
-                f'**You ({msg["time"]}):** {msg["text"]}',
-                is_user=True,
-                avatar_style="adventurer",
-                seed=123,
-            )
-        else:
-            message(
-                f'**Bot ({msg["time"]}):** {msg["text"]}',
-                is_user=False,
-                avatar_style="adventurer",
-                seed=123,
-            )
-
 # # Create a function to display messages
 # def display_messages(all_messages):
 #     for msg in all_messages:
 #         if msg['user'] == 'user':
-#             st.markdown(f'<div class="message user">You ({msg["time"]}): {msg["text"]}</div>', unsafe_allow_html=True)
+#             message(
+#                 f'**You ({msg["time"]}):** {msg["text"]}',
+#                 is_user=True,
+#                 avatar_style="adventurer",
+#                 seed=123,
+#             )
 #         else:
-#             st.markdown(f'<div class="message bot">Bot ({msg["time"]}): {msg["text"]}</div>', unsafe_allow_html=True)
+#             message(
+#                 f'**Bot ({msg["time"]}):** {msg["text"]}',
+#                 is_user=False,
+#                 avatar_style="adventurer",
+#                 seed=123,
+#             )
 
+def display_messages(all_messages):
+    user_base_color = "f44336"
+    user_eyes = 5
+    user_face = 6
+    user_mouth = 6
+
+    bot_base_color = "4caf50"
+    bot_eyes = 4
+    bot_face = 4
+    bot_mouth = 4
+
+    user_avatar_style = f"bottts?baseColor={user_base_color}&eyes={user_eyes}&face={user_face}&mouth={user_mouth}"
+    bot_avatar_style = f"bottts?baseColor={bot_base_color}&eyes={bot_eyes}&face={bot_face}&mouth={bot_mouth}"
+
+    for msg in all_messages:
+        if msg['user'] == 'user':
+            message(
+                f"You ({msg['time']}): {msg['text']}",
+                is_user=True,
+                avatar_style=user_avatar_style,
+                seed=123,
+            )
+        else:
+            message(
+                f"Bot ({msg['time']}): {msg['text']}",
+                is_user=False,
+                avatar_style=bot_avatar_style,
+                seed=456,
+            )
+            
 # Create a function to send messages
 def send_message(user_query, all_messages):
     if user_query:
