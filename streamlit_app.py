@@ -73,6 +73,21 @@ def send_message(user_query, all_messages):
         
 # Create a list to store messages
 st.sidebar.title("Settings")
+st.sidebar.subheader("Theme")
+theme = st.sidebar.radio("Choose your theme", ("Light", "Dark"))
+
+custom_theme_css = ""
+if theme == "Dark":
+    custom_theme_css = """
+    <style>
+        body {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+    </style>
+    """
+st.markdown(custom_theme_css, unsafe_allow_html=True)
+
 datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
 if datafile is not None:
     if not os.path.exists('./data'):
