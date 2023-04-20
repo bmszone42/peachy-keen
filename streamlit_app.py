@@ -66,14 +66,7 @@ def select_avatar_seed():
 
 def display_avatar_in_sidebar(avatar_style, seed):
     avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
-    response = requests.get(avatar_url)
-
-    if response.status_code == 200:
-        img = Image.open(BytesIO(response.content))
-        st.sidebar.image(img, caption="Your Avatar", use_column_width=True)
-    else:
-        st.sidebar.error("Error fetching avatar image.")
-
+    st.sidebar.image(avatar_url, caption="Your Avatar", use_column_width=True)
 
 # Create a function to display messages
 def display_messages(all_messages):
