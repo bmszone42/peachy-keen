@@ -3,7 +3,7 @@ import random
 import time
 import streamlit as st
 from datetime import datetime
-from streamlit_chat import message
+from streamlit_chat import message, chat
 from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader
 import docx2txt
 import PyPDF2
@@ -71,7 +71,7 @@ def get_bot_response(user_query):
 #             )
 
 def display_messages(all_messages):
-    user_style = "adventurer"
+    user_style = "bottts"
     bot_style = "bottts"
 
     user_base_color = "f44336"
@@ -87,21 +87,23 @@ def display_messages(all_messages):
     user_avatar_style = f"{user_style}?baseColor={user_base_color}&eyes={user_eyes}&face={user_face}&mouth={user_mouth}"
     bot_avatar_style = f"{bot_style}?baseColor={bot_base_color}&eyes={bot_eyes}&face={bot_face}&mouth={bot_mouth}"
 
+    chat_object = chat()
+
     for msg in all_messages:
         if msg['user'] == 'user':
-            message(
+            chat_object.add_message(
                 f"You ({msg['time']}): {msg['text']}",
-                is_user=True,
-                avatar_style=user_avatar_style,
-                seed=123,
+                sender_name="You",
+                avatar_url=f"https://avatars.dicebear.com/api/{user_avatar_style}",
             )
         else:
-            message(
+            chat_object.add_message(
                 f"Bot ({msg['time']}): {msg['text']}",
-                is_user=False,
-                avatar_style=bot_avatar_style,
-                seed=456,
+                sender_name="Bot",
+                avatar_url=f"https://avatars.dicebear.com/api/{bot_avatar_style}",
             )
+
+    chat_object.display()
             
 # Create a function to send messages
 def send_message(user_query, all_messages):
