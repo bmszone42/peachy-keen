@@ -9,7 +9,7 @@ import docx2txt
 import PyPDF2
 
 
-st.markdown("<h1 style='text-align: center; color: red;'>Doc-Bot👋</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
 
 buff, col, buff2 = st.columns([1,3,1])
 # openai_key = col.text_input('OpenAI Key:')
