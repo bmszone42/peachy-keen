@@ -53,54 +53,26 @@ def get_bot_response(user_query):
     response = index.query(user_query)
     return str(response)
 
-# # Create a function to display messages
-# def display_messages(all_messages):
-#     for msg in all_messages:
-#         seed = random.randint(100, 999)
-
-#         if msg['user'] == 'user':
-#             message(
-#                 f'You ({msg["time"]}): {msg["text"]}',
-#                 is_user=True,
-#                 avatar_style="adventurer",
-#                 seed=seed,
-#             )
-#         else:
-#             message(
-#                 f'Bot ({msg["time"]}): {msg["text"]}',
-#                 is_user=False,
-#                 avatar_style="bottts",
-#                 seed=seed,
-#             )
-            
+# Create a function to display messages
 def display_messages(all_messages):
     for msg in all_messages:
         seed = random.randint(100, 999)
 
         if msg['user'] == 'user':
-            avatar_style = "adventurer"
-            base_color = "f44336"
-            eyes = random.randint(1, 6)
-            face = random.randint(1, 6)
-            mouth = random.randint(1, 6)
-            avatar_url = f"https://avatars.dicebear.com/api/{avatar_style}?seed={seed}&baseColor={base_color}&eyes={eyes}&face={face}&mouth={mouth}"
             message(
-                f'You ({msg["time"]}): {msg["text"]}\nAvatar URL: {avatar_url}',
+                f'You ({seed["seed"]}) ({msg["time"]}): {msg["text"]}',
                 is_user=True,
+                avatar_style="adventurer",
                 seed=seed,
             )
         else:
-            avatar_style = "bottts"
-            base_color = "4caf50"
-            eyes = random.randint(1, 6)
-            face = random.randint(1, 6)
-            mouth = random.randint(1, 6)
-            avatar_url = f"https://avatars.dicebear.com/api/{avatar_style}?seed={seed}&baseColor={base_color}&eyes={eyes}&face={face}&mouth={mouth}"
             message(
-                f'Bot ({msg["time"]}): {msg["text"]}\nAvatar URL: {avatar_url}',
+                f'Bot ({msg["time"]}): {msg["text"]}',
                 is_user=False,
+                avatar_style="bottts",
                 seed=seed,
             )
+            
             
 # Create a function to send messages
 def send_message(user_query, all_messages):
