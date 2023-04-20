@@ -11,6 +11,7 @@ from pdf2image import convert_from_path, convert_from_bytes
 from PIL import Image
 from io import BytesIO
 import docx
+import random
 
 st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
 custom_css = """
@@ -55,19 +56,21 @@ def get_bot_response(user_query):
 # Create a function to display messages
 def display_messages(all_messages):
     for msg in all_messages:
+        seed = random.randint(100, 999)
+
         if msg['user'] == 'user':
             message(
                 f'You ({msg["time"]}): {msg["text"]}',
                 is_user=True,
                 avatar_style="adventurer",
-                seed=456,
+                seed=seed,
             )
         else:
             message(
                 f'Bot ({msg["time"]}): {msg["text"]}',
                 is_user=False,
                 avatar_style="bottts",
-                seed=123,
+                seed=seed,
             )
             
 # Create a function to send messages
