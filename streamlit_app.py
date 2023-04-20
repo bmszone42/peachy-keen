@@ -102,7 +102,6 @@ def display_messages(all_messages):
                 avatar_style=bot_avatar_style,
                 seed=456,
             )
-    chat_object.display()
             
 # Create a function to send messages
 def send_message(user_query, all_messages):
