@@ -92,8 +92,6 @@ def send_message(user_query, all_messages):
     if user_query:
         all_messages.append({'user': 'user', 'time': datetime.now().strftime("%H:%M"), 'text': user_query})
         
-        progress_bar = st.progress()  # Updated this line
-        
         for i in range(100):
             time.sleep(0.01)
             progress_bar.progress(i + 1)
@@ -102,6 +100,7 @@ def send_message(user_query, all_messages):
         all_messages.append({'user': 'bot', 'time': datetime.now().strftime("%H:%M"), 'text': bot_response})
 
         st.session_state.all_messages = all_messages
+
      
 # Create a list to store messages
 st.sidebar.title("Settings")
@@ -168,7 +167,7 @@ if datafile is not None:
 
                 
     # Add this line before the "Create input text box for user to send messages" line
-    progress_bar_placeholder = st.empty()
+    progress_bar = st.progress(0)
 
     # Create input text box for user to send messages
     user_query = st.text_input("You: ","", key= "input")
