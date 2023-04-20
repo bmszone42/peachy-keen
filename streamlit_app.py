@@ -60,19 +60,18 @@ def display_messages(all_messages):
 
         if msg['user'] == 'user':
             message(
-                f'You ({seed["seed"]}) ({msg["time"]}): {msg["text"]}',
+                f'You (Seed: {seed}, Time: {msg["time"]}): {msg["text"]}',
                 is_user=True,
                 avatar_style="adventurer",
                 seed=seed,
             )
         else:
             message(
-                f'Bot ({msg["time"]}): {msg["text"]}',
+                f'Bot (Seed: {seed}, Time: {msg["time"]}): {msg["text"]}',
                 is_user=False,
                 avatar_style="bottts",
                 seed=seed,
             )
-            
             
 # Create a function to send messages
 def send_message(user_query, all_messages):
