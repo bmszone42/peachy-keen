@@ -10,8 +10,8 @@ from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader
 st.markdown("<h1 style='text-align: center; color: red;'>Doc-Bot👋</h1>", unsafe_allow_html=True)
 
 buff, col, buff2 = st.columns([1,3,1])
-openai_key = col.text_input('OpenAI Key:')
-os.environ["OPENAI_API_KEY"] = openai_key
+# openai_key = col.text_input('OpenAI Key:')
+# os.environ["OPENAI_API_KEY"] = openai_key
 
 
 if 'all_messages' not in st.session_state:
