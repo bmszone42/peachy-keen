@@ -66,7 +66,7 @@ def display_messages(all_messages):
             message(
                 f'**Bot ({msg["time"]}):** {msg["text"]}',
                 is_user=False,
-                avatar_style="adventurer",
+                avatar_style="bottts",
                 seed=123,
             )
 
