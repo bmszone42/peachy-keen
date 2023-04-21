@@ -140,6 +140,9 @@ index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New 
 
 datafile = st.sidebar.file_uploader("Upload your doc", type=['docx', 'doc', 'pdf'])
 
+if 'file_names' not in st.session_state:
+    st.session_state.file_names = []
+
 display_loaded_files()
 
 if datafile is not None:
