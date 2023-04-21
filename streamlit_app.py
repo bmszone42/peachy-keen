@@ -58,7 +58,7 @@ def get_bot_response(user_query, index):
     return str(response)
 
 # Show the avatar selected in the sidebar
-@st.cache_data(suppress_st_warning=True, allow_output_mutation=True)
+@st.cache_data(allow_output_mutation=True)
 def display_avatar_in_sidebar(avatar_style, seed):
     avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
     st.sidebar.image(avatar_url, caption=f'Your Avatar is  seed: {seed}', use_column_width=True)
