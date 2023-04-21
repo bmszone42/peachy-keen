@@ -13,6 +13,17 @@ import docx
 import requests
 import fitz
 
+# Initialize session state
+if 'initialized' not in st.session_state:
+    st.session_state['initialized'] = True
+
+if '_is_rerun' in st.session_state:
+    # This is a rerun
+    pass
+else:
+    # This is the first run
+    pass
+
 st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
 custom_css = """
 <style>
