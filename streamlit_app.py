@@ -57,20 +57,23 @@ def get_bot_response(user_query, index):
     response = index.query(user_query)
     return str(response)
 
+# Show the avatar selected in the sidebar
+def display_avatar_in_sidebar(avatar_style, seed):
+    avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
+    st.sidebar.image(avatar_url, caption="Your Avatar", use_column_width=True)
+    
 # Allow the user to select their own Avatar seed
 def select_avatar_seed():
     if "user_avatar_seed" not in st.session_state:
         st.session_state.user_avatar_seed = random.randint(100, 999)
 
     st.sidebar.subheader("Avatar Settings")
-    col1, col2 = st.sidebar.columns([2, 1])
-    user_avatar_seed = col1.slider("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed)
-
-    st.session_state.user_avatar_seed = user_avatar_seed
-
-def display_avatar_in_sidebar(avatar_style, seed):
-    avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
-    st.sidebar.image(avatar_url, caption="Your Avatar", use_column_width=True)
+    
+    # Create a container to hold the image and the slider
+    with st.sidebar.container():
+        display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
+        user_avatar_seed = st.sidebar.slider("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed)
+        st.session_state.user_avatar_seed = user_avatar_seed  # Update the session state with the new value
 
 # Create a function to display messages
 def display_messages(all_messages):
@@ -111,7 +114,7 @@ def send_message(user_query, all_messages):
 # Create a list to store messages
 st.sidebar.title("Settings")
 select_avatar_seed()
-display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
+#display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
 
 datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
 if datafile is not None:
