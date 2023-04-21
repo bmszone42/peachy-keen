@@ -131,6 +131,12 @@ display_avatar_in_sidebar("adventurer")
 # Show the settings in the sidebar
 select_avatar_seed()
 
+def display_loaded_files(index):
+    st.sidebar.markdown("### Loaded files:")
+    for doc in index.get_documents():
+        st.sidebar.write(doc.metadata["file_name"])
+
+
 index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New Files"))
 
 datafile = st.sidebar.file_uploader("Upload your doc", type=['docx', 'doc', 'pdf'])
@@ -159,6 +165,9 @@ if datafile is not None:
             st.session_state.index.insert(doc)
         st.session_state.index.save_to_disk('index.json')
         st.sidebar.success('New file added to index successfully.')
+
+    # Display the full list of loaded files in the sidebar
+    display_loaded_files(st.session_state.index)
 
     # Add a file preview
     st.markdown("**File Preview:**")
