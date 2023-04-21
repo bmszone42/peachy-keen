@@ -53,7 +53,7 @@ def save_uploaded_file(uploadedfile):
      f.write(uploadedfile.getbuffer())
 
 # Create a function to get bot response
-def get_bot_response(user_query):
+def get_bot_response(user_query, index):
     response = index.query(user_query)
     return str(response)
 
@@ -103,12 +103,11 @@ def send_message(user_query, all_messages):
             time.sleep(0.01)
             progress_bar.progress(i + 1)
                 
-        bot_response = get_bot_response(user_query)
+        bot_response = get_bot_response(user_query, st.session_state.index)
         all_messages.append({'user': 'bot', 'time': datetime.now().strftime("%H:%M"), 'text': bot_response})
 
         st.session_state.all_messages = all_messages
-
-     
+    
 # Create a list to store messages
 st.sidebar.title("Settings")
 select_avatar_seed()
@@ -120,12 +119,13 @@ if datafile is not None:
         os.mkdir('./data')
     save_uploaded_file(datafile)
     documents = SimpleDirectoryReader('data').load_data()
-    index = GPTSimpleVectorIndex.from_documents(documents)
+    st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
 
-    index.save_to_disk('index.json')
+    st.session_state.index.save_to_disk('index.json')
 
-    index = GPTSimpleVectorIndex.load_from_disk('index.json')
-    
+    if 'index' not in st.session_state:
+        st.session_state.index = GPTSimpleVectorIndex.from_documents(documents)
+
      # Add a file preview
     st.markdown("**File Preview:**")
     if datafile.type == 'application/pdf':
