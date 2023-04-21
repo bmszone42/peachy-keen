@@ -3,7 +3,6 @@ llama-index
 streamlit==1.21.0
 streamlit_chat
 docx2txt
-PyPDF2
 Pillow 
 python-docx
 PyMuPDF
