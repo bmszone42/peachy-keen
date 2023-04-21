@@ -6,7 +6,6 @@ from datetime import datetime
 from streamlit_chat import message
 from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader
 import docx2txt
-import PyPDF2
 from PIL import Image
 from io import BytesIO
 import docx
@@ -159,7 +158,7 @@ if datafile is not None:
             st.session_state.index.add_documents(new_documents)
             st.session_state.index.save_to_disk('index.json')
 
-     # Add a file preview
+    # Add a file preview
     st.markdown("**File Preview:**")
     if datafile.type == 'application/pdf':
         pdf_data = datafile.read()
@@ -189,7 +188,8 @@ if datafile is not None:
     if send_button:
         send_message(user_query, st.session_state.all_messages)
         display_messages(st.session_state.all_messages)
-        st.markdown(f"LLM Tokens Used: {st.session_state.index.service_context.llm_predictor._last_token_usage}")
-        st.markdown(f"Embedding Tokens Used: {st.session_state.index.service_context.embed_model._last_token_usage}")
+        if st.session_state.all_messages:
+            st.markdown(f"LLM Tokens Used: {st.session_state.index.service_context.llm_predictor._last_token_usage}")
+            st.markdown(f"Embedding Tokens Used: {st.session_state.index.service_context.embed_model._last_token_usage}")
 
     
