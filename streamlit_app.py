@@ -33,21 +33,28 @@ custom_css = """
     }
 </style>
 """
-
+# Apply the custom CSS to the app
 st.markdown(custom_css, unsafe_allow_html=True)
 
+# Set up columns for layout
 buff, col, buff2 = st.columns([1,3,1])
+
+# Get OpenAI API key from user
 openai_key = col.text_input('OpenAI Key:')
+
+# Set OpenAI API key environment variable
 if openai_key:
     os.environ['OPENAI_API_KEY'] = openai_key
     # Your app's main functionality goes here
 else:
     st.warning('Please enter your OpenAI API key to proceed.')
     st.stop()
-
+    
+# Initialize session state for all_messages
 if 'all_messages' not in st.session_state:
     st.session_state.all_messages = []
 
+# Save uploaded files
 def save_uploaded_file(uploadedfile):
   with open(os.path.join("data",uploadedfile.name),"wb") as f:
      f.write(uploadedfile.getbuffer())
@@ -64,12 +71,13 @@ def display_avatar_in_sidebar(avatar_style):
     avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{st.session_state.user_avatar_seed}.svg'
     st.sidebar.image(avatar_url, caption=f'Your Avatar is seed: {st.session_state.user_avatar_seed}', use_column_width=True)
 
-
+# Update avatar seed
 def update_avatar():
     if st.session_state.avatar_seed != st.session_state.user_avatar_seed:
         st.session_state.user_avatar_seed = st.session_state.avatar_seed
         display_avatar_in_sidebar("adventurer")
-
+        
+# Choose avatar seed in the sidebar
 def select_avatar_seed():
     if "user_avatar_seed" not in st.session_state:
         st.session_state.user_avatar_seed = random.randint(100, 999)
