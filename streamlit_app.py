@@ -61,7 +61,7 @@ def get_bot_response(user_query, index):
 def display_avatar_in_sidebar(avatar_style, seed):
     avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
     #st.sidebar.image(avatar_url, caption=f'Your Avatar is  seed: {seed}', use_column_width=True)
-    st.sidebar.slider("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.avatar_seed, on_change=update_avatar)
+    st.sidebar.slider("Choose your avatar seed", min_value=100, max_value=999, on_change=update_avatar)
 
 
 def update_avatar():
