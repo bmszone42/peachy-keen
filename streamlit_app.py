@@ -131,14 +131,14 @@ if 'user_avatar_seed' not in st.session_state:
 
 st.sidebar.title("Settings")
 
-# Display the avatar in the sidebar
-with st.sidebar.container():
-    display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
+# # Display the avatar in the sidebar
+# with st.sidebar.container():
+#     display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
 
 # Show the settings in the sidebar
 select_avatar_seed()
-if st.session_state._is_rerun:
-    st.experimental_rerun()
+# if st.session_state._is_rerun:
+#     st.experimental_rerun()
 
 datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
 if datafile is not None:
