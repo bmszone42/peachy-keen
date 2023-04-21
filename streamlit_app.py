@@ -82,11 +82,7 @@ def select_avatar_seed():
         
     st.session_state.user_avatar_seed = st.session_state.avatar_seed
 
-# Display the avatar in the sidebar
-display_avatar_in_sidebar("adventurer")
 
-# Show the settings in the sidebar
-select_avatar_seed()
 
 # Create a function to display messages
 def display_messages(all_messages):
@@ -123,31 +119,39 @@ def send_message(user_query, all_messages):
         all_messages.append({'user': 'bot', 'time': datetime.now().strftime("%H:%M"), 'text': bot_response})
 
         st.session_state.all_messages = all_messages
-        
-# if 'user_avatar_seed' not in st.session_state:
-#     st.session_state['user_avatar_seed'] = None
 
-# # Display the avatar in the sidebar
-# #display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
+# Display the avatar in the sidebar
+display_avatar_in_sidebar("adventurer")
 
-# # Show the settings in the sidebar
-# select_avatar_seed()
+# Show the settings in the sidebar
+select_avatar_seed()
+
+index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New Files"))
 
 datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
+
 if datafile is not None:
     if not os.path.exists('./data'):
         os.mkdir('./data')
     save_uploaded_file(datafile)
-    documents = SimpleDirectoryReader('data').load_data()
-    st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
 
-    st.session_state.index.save_to_disk('index.json')
+    if index_option == "Reindex Files":
+        documents = SimpleDirectoryReader('data').load_data()
+        st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
+        st.session_state.index.save_to_disk('index.json')
 
-    if 'index' not in st.session_state:
-        st.session_state.index = None
-    if st.session_state.index is None:
-        st.session_state.index = GPTSimpleVectorIndex.from_documents(documents)
+        if 'index' not in st.session_state:
+            st.session_state.index = None
+        if st.session_state.index is None:
+            st.session_state.index = GPTSimpleVectorIndex.from_documents(documents)
 
+    elif index_option == "Add New Files":
+        new_documents = SimpleDirectoryReader('data').load_data()
+        if 'index' not in st.session_state or st.session_state.index is None:
+            st.session_state.index = GPTSimpleVectorIndex.from_documents(new_documents)
+        else:
+            st.session_state.index.add_documents(new_documents)
+            st.session_state.index.save_to_disk('index.json')
 
      # Add a file preview
     st.markdown("**File Preview:**")
