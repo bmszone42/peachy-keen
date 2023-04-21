@@ -119,7 +119,7 @@ if 'user_avatar_seed' not in st.session_state:
 
 
 # Display the avatar in the sidebar
-display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
+#display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
 
 # Show the settings in the sidebar
 select_avatar_seed()
