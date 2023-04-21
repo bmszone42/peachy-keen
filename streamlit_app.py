@@ -132,8 +132,12 @@ display_avatar_in_sidebar("adventurer")
 select_avatar_seed()
 
 def merge_documents(index1, index2):
-    merged_documents = index1.documents + index2.documents
-    return merged_documents
+    if index1 is None:
+        return index2.get_documents()
+    elif index2 is None:
+        return index1.get_documents()
+    else:
+        return index1.get_documents() + index2.get_documents()
 
 index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New Files"))
 
