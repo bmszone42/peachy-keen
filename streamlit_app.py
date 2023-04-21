@@ -82,8 +82,6 @@ def select_avatar_seed():
         
     st.session_state.user_avatar_seed = st.session_state.avatar_seed
 
-
-
 # Create a function to display messages
 def display_messages(all_messages):
     for i, msg in enumerate(all_messages):
