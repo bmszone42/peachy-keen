@@ -13,16 +13,6 @@ import docx
 import requests
 import fitz
 
-# Initialize session state
-if 'initialized' not in st.session_state:
-    st.session_state['initialized'] = True
-
-if '_is_rerun' in st.session_state:
-    # This is a rerun
-    pass
-else:
-    # This is the first run
-    pass
 
 st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
 custom_css = """
@@ -123,6 +113,17 @@ def send_message(user_query, all_messages):
         all_messages.append({'user': 'bot', 'time': datetime.now().strftime("%H:%M"), 'text': bot_response})
 
         st.session_state.all_messages = all_messages
+        
+# Initialize session state
+if 'initialized' not in st.session_state:
+    st.session_state['initialized'] = True
+
+if '_is_rerun' in st.session_state:
+    # This is a rerun
+    pass
+else:
+    # This is the first run
+    pass
     
 # Create a list to store messages
 st.sidebar.title("Settings")
