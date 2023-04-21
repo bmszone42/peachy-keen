@@ -133,9 +133,8 @@ select_avatar_seed()
 
 def display_loaded_files(index):
     st.sidebar.markdown("### Loaded files:")
-    for doc in index.get_documents():
+    for doc in index.documents:
         st.sidebar.write(doc.metadata["file_name"])
-
 
 index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New Files"))
 
