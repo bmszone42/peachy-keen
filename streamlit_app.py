@@ -5,6 +5,7 @@ import streamlit as st
 from datetime import datetime
 from streamlit_chat import message
 from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader
+from gpt_index import update_index
 import docx2txt
 from PIL import Image
 from io import BytesIO
@@ -164,8 +165,7 @@ if datafile is not None:
             else:
                 st.session_state.index = GPTSimpleVectorIndex.from_documents([])
         new_documents = SimpleDirectoryReader('data').load_data()
-        merged_documents = merge_documents(st.session_state.index.get_documents(), new_documents)
-        st.session_state.index = GPTSimpleVectorIndex.from_documents(merged_documents)
+        st.session_state.index = update_index(st.session_state.index, new_documents)
         st.session_state.index.save_to_disk('index.json')
         st.sidebar.success('New file added to index successfully.')
 
