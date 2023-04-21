@@ -62,8 +62,8 @@ def display_avatar_in_sidebar(avatar_style, seed):
     avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
     st.sidebar.image(avatar_url, caption="Your Avatar", use_column_width=True)
     
-def update_avatar(seed):
-    st.session_state.user_avatar_seed = seed
+def update_avatar():
+    st.session_state.user_avatar_seed = st.session_state.avatar_seed
     with st.sidebar.container():
         display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
     
@@ -77,8 +77,8 @@ def select_avatar_seed():
     # Create a container to hold the image and the slider
     with st.sidebar.container():
         display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
-        user_avatar_seed = st.sidebar.slider("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed, on_change=update_avatar)
-        st.session_state.user_avatar_seed = user_avatar_seed  # Update the session state with the new value
+        st.session_state.avatar_seed = st.sidebar.slider("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed, on_change=update_avatar)
+        st.session_state.user_avatar_seed = st.session_state.avatar_seed  # Update the session state with the new value
 
 # Create a function to display messages
 def display_messages(all_messages):
