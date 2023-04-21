@@ -133,7 +133,8 @@ select_avatar_seed()
 
 def display_loaded_files(index):
     st.sidebar.markdown("### Loaded files:")
-    for doc in index.documents:
+    for doc_id in index.document_ids:
+        doc = index.get_document_by_id(doc_id)
         st.sidebar.write(doc.metadata["file_name"])
 
 index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New Files"))
@@ -166,8 +167,9 @@ if datafile is not None:
         st.sidebar.success('New file added to index successfully.')
 
     # Display the full list of loaded files in the sidebar
-    display_loaded_files(st.session_state.index)
-
+    if 'index' in st.session_state:
+        display_loaded_files(st.session_state.index)
+    
     # Add a file preview
     st.markdown("**File Preview:**")
     if datafile.type == 'application/pdf':
