@@ -162,9 +162,10 @@ if datafile is not None:
         if 'index' not in st.session_state or st.session_state.index is None:
             st.session_state.index = GPTSimpleVectorIndex.from_documents(new_documents)
         else:
-            merged_documents = merge_documents(st.session_state.index.documents, new_documents)
+            merged_documents = merge_documents(st.session_state.index.get_documents(), new_documents)
             st.session_state.index = GPTSimpleVectorIndex.from_documents(merged_documents)
         st.session_state.index.save_to_disk('index.json')
+
 
 
 #     elif index_option == "Add New Files":
