@@ -131,11 +131,9 @@ display_avatar_in_sidebar("adventurer")
 # Show the settings in the sidebar
 select_avatar_seed()
 
-def merge_indices(index1, index2):
-    index1._vectors.extend(index2._vectors)
-    index1._ids.extend(index2._ids)
-    index1._texts.extend(index2._texts)
-    return index1
+def merge_documents(index1, index2):
+    merged_documents = index1.documents + index2.documents
+    return merged_documents
 
 index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New Files"))
 
@@ -156,15 +154,16 @@ if datafile is not None:
         st.sidebar.success('Reindexed files successfully.')
 
     elif index_option == "Add New Files":
-        if 'index' not in st.session_state:
-            if os.path.exists('index.json'):
-                st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
-            else:
-                st.session_state.index = GPTSimpleVectorIndex.from_documents([])
-        st.session_state.index = merge_indices(st.session_state.index, new_index)
-        st.session_state.index.save_to_disk('index.json')
-        st.sidebar.success('New file added to index successfully.')
-
+    if 'index' not in st.session_state:
+        if os.path.exists('index.json'):
+            st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
+        else:
+            st.session_state.index = GPTSimpleVectorIndex.from_documents([])
+    new_documents = SimpleDirectoryReader('data').load_data()
+    merged_documents = merge_documents(st.session_state.index, GPTSimpleVectorIndex.from_documents(new_documents))
+    st.session_state.index = GPTSimpleVectorIndex.from_documents(merged_documents)
+    st.session_state.index.save_to_disk('index.json')
+    st.sidebar.success('New file added to index successfully.')
 
     # Add a file preview
     st.markdown("**File Preview:**")
