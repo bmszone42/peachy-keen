@@ -124,7 +124,10 @@ if datafile is not None:
     st.session_state.index.save_to_disk('index.json')
 
     if 'index' not in st.session_state:
+        st.session_state.index = None
+    if st.session_state.index is None:
         st.session_state.index = GPTSimpleVectorIndex.from_documents(documents)
+
 
      # Add a file preview
     st.markdown("**File Preview:**")
@@ -156,6 +159,7 @@ if datafile is not None:
     if send_button:
         send_message(user_query, st.session_state.all_messages)
         display_messages(st.session_state.all_messages)
-        st.markdown(f"LLM Tokens Used: {index.service_context.llm_predictor._last_token_usage}")
-        st.markdown(f"Embedding Tokens Used: {index.service_context.embed_model._last_token_usage}")
+        st.markdown(f"LLM Tokens Used: {st.session_state.index.service_context.llm_predictor._last_token_usage}")
+        st.markdown(f"Embedding Tokens Used: {st.session_state.index.service_context.embed_model._last_token_usage}")
+
     
