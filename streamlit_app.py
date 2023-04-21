@@ -60,7 +60,7 @@ def get_bot_response(user_query, index):
 # Show the avatar selected in the sidebar
 def display_avatar_in_sidebar(avatar_style, seed):
     avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
-    #st.sidebar.image(avatar_url, caption=f'Your Avatar is  seed: {seed}', use_column_width=True)
+    st.sidebar.image(avatar_url, caption=f'Your Avatar is  seed: {seed}', use_column_width=True)
     st.sidebar.slider("Choose your avatar seed", min_value=100, max_value=999, on_change=update_avatar)
 
 
@@ -77,8 +77,8 @@ def select_avatar_seed():
 
     # Create a container to hold the slider
     with st.sidebar.container():
-        st.session_state.avatar_seed = st.sidebar.slider("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed, on_change=update_avatar)
-        #st.session_state.user_avatar_seed = st.session_state.avatar_seed  # Update the session state with the new value
+        #st.session_state.avatar_seed = st.sidebar.slider("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed, on_change=update_avatar)
+        st.session_state.user_avatar_seed = st.session_state.avatar_seed  # Update the session state with the new value
 
 # Create a function to display messages
 def display_messages(all_messages):
