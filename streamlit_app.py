@@ -64,9 +64,7 @@ def display_avatar_in_sidebar(avatar_style, seed):
 
 def update_avatar():
     st.session_state.user_avatar_seed = st.session_state.avatar_seed
-    with st.sidebar.container():
-        display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
-
+    
 def select_avatar_seed():
     if "user_avatar_seed" not in st.session_state:
         st.session_state.user_avatar_seed = random.randint(100, 999)
