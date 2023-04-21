@@ -169,7 +169,9 @@ if datafile is not None:
         st.session_state.index.save_to_disk('index.json')
         st.sidebar.success('New file added to index successfully.')
 
-    st.session_state.file_names.extend([os.path.basename(doc.source_path) for doc in new_documents])
+    #st.session_state.file_names.extend([os.path.basename(doc.source_path) for doc in new_documents])
+    st.session_state.file_names.extend([os.path.basename(str(doc.id)) for doc in new_documents])
+
 
     # Display the full list of loaded files in the sidebar
     display_loaded_files()
