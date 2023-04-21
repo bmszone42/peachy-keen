@@ -72,8 +72,8 @@ def select_avatar_seed():
         st.session_state.user_avatar_seed = random.randint(100, 999)
 
     st.sidebar.subheader("Avatar Settings")
-    
-    # Create a container to hold the image and the slider
+
+    # Create a container to hold the slider
     with st.sidebar.container():
         st.session_state.avatar_seed = st.sidebar.slider("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed, on_change=update_avatar)
         st.session_state.user_avatar_seed = st.session_state.avatar_seed  # Update the session state with the new value
@@ -116,8 +116,13 @@ def send_message(user_query, all_messages):
     
 # Create a list to store messages
 st.sidebar.title("Settings")
+
+# Display the avatar in the sidebar
+with st.sidebar.container():
+    display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
+
+# Show the settings in the sidebar
 select_avatar_seed()
-#display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
 
 datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
 if datafile is not None:
