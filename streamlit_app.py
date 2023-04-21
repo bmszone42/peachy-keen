@@ -171,7 +171,9 @@ if datafile is not None:
 
     #st.session_state.file_names.extend([os.path.basename(doc.source_path) for doc in new_documents])
     #st.session_state.file_names.extend([os.path.basename(str(doc.id)) for doc in new_documents])
-    st.session_state.file_names.extend([os.path.basename(doc.metadata["file_name"]) for doc in new_documents])
+    #st.session_state.file_names.extend([os.path.basename(doc.metadata["file_name"]) for doc in new_documents])
+    st.session_state.file_names.extend([os.path.basename(doc.source_path) for doc in new_documents])
+
 
 
 
