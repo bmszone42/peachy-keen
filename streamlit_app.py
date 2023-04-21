@@ -133,7 +133,7 @@ select_avatar_seed()
 
 def display_loaded_files(index):
     st.sidebar.markdown("### Loaded files:")
-    for doc_id in index.document_ids:
+    for doc_id in index.get_document_ids():
         doc = index.get_document_by_id(doc_id)
         st.sidebar.write(doc.metadata["file_name"])
 
