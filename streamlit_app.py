@@ -137,8 +137,8 @@ st.sidebar.title("Settings")
 
 # Show the settings in the sidebar
 select_avatar_seed()
-# if st.session_state._is_rerun:
-#     st.experimental_rerun()
+if st.session_state._is_rerun:
+    st.experimental_rerun()
 
 datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
 if datafile is not None:
