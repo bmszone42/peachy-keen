@@ -131,15 +131,16 @@ display_avatar_in_sidebar("adventurer")
 # Show the settings in the sidebar
 select_avatar_seed()
 
-def display_loaded_files(index):
+def display_loaded_files():
     st.sidebar.markdown("### Loaded files:")
-    for doc_id in index.get_document_ids():
-        doc = index.get_document_by_id(doc_id)
-        st.sidebar.write(doc.metadata["file_name"])
+    for file_name in st.session_state.file_names:
+        st.sidebar.write(file_name)
 
 index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New Files"))
 
 datafile = st.sidebar.file_uploader("Upload your doc", type=['docx', 'doc', 'pdf'])
+
+display_loaded_files()
 
 if datafile is not None:
     if not os.path.exists('./data'):
@@ -147,10 +148,14 @@ if datafile is not None:
     save_uploaded_file(datafile)
 
     new_documents = SimpleDirectoryReader('data').load_data([datafile.name])
+    
+    if 'file_names' not in st.session_state:
+        st.session_state.file_names = []
 
     if index_option == "Reindex Files":
         documents = SimpleDirectoryReader('data').load_data()
         st.session_state.index = GPTSimpleVectorIndex.from_documents(documents)
+        st.session_state.file_names = [doc.metadata["file_name"] for doc in documents]
         st.session_state.index.save_to_disk('index.json')
         st.sidebar.success('Reindexed files successfully.')
         
@@ -163,6 +168,7 @@ if datafile is not None:
         new_documents = SimpleDirectoryReader('data').load_data()
         for doc in new_documents:
             st.session_state.index.insert(doc)
+        st.session_state.file_names.extend([doc.metadata["file_name"] for doc in new_documents])
         st.session_state.index.save_to_disk('index.json')
         st.sidebar.success('New file added to index successfully.')
 
