@@ -79,7 +79,7 @@ def get_bot_response(user_query, index):
 #     display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
 
 # Show the avatar selected in the sidebar
-@st.cache_data(allow_output_mutation=True, suppress_st_warning=True, show_spinner=False, max_entries=100, ttl=None, hash_funcs=None, dependencies=("avatar_style", "seed"))
+@st.cache_data(experimental_allow_widgets=True)
 def display_avatar_in_sidebar(avatar_style, seed):
     avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
     st.sidebar.image(avatar_url, caption=f'Your Avatar is  seed: {seed}', use_column_width=True)
