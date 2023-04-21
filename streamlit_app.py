@@ -147,8 +147,10 @@ if datafile is not None:
             st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
         else:
             st.session_state.index = None
-
-        st.session_state.index.save_to_disk('index.json')
+            
+        if st.session_state.index is not None:
+            st.session_state.index.save_to_disk('index.json')
+        #st.session_state.index.save_to_disk('index.json')
 
         if 'index' not in st.session_state:
             st.session_state.index = None
