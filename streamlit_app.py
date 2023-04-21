@@ -13,16 +13,16 @@ import docx
 import requests
 import fitz
 
-# Initialize session state
-if 'initialized' not in st.session_state:
-    st.session_state['initialized'] = True
+# # Initialize session state
+# if 'initialized' not in st.session_state:
+#     st.session_state['initialized'] = True
 
-if '_is_rerun' in st.session_state:
-    # This is a rerun
-    pass
-else:
-    # This is the first run
-    pass
+# if '_is_rerun' in st.session_state:
+#     # This is a rerun
+#     pass
+# else:
+#     # This is the first run
+#     pass
     
     
 st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
@@ -133,12 +133,12 @@ st.sidebar.title("Settings")
 
 # # Display the avatar in the sidebar
 # with st.sidebar.container():
-#     display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
+display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
 
 # Show the settings in the sidebar
 select_avatar_seed()
-if st.session_state._is_rerun:
-    st.experimental_rerun()
+# if st.session_state._is_rerun:
+#     st.experimental_rerun()
 
 datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
 if datafile is not None:
