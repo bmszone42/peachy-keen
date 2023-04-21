@@ -7,11 +7,12 @@ from streamlit_chat import message
 from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader
 import docx2txt
 import PyPDF2
-from pdf2image import convert_from_path, convert_from_bytes
+#from pdf2image import convert_from_path, convert_from_bytes
 from PIL import Image
 from io import BytesIO
 import docx
 import requests
+import fitz
 
 os.environ["PATH"] += os.pathsep + "/usr/bin"
 
@@ -126,9 +127,17 @@ if datafile is not None:
     
      # Add a file preview
     st.markdown("**File Preview:**")
+#     if datafile.type == 'application/pdf':
+#         images = convert_from_bytes(datafile.read())
+#         for idx, img in enumerate(images):
+#             st.subheader(f"Page {idx + 1}")
+#             st.image(img, width=600)
     if datafile.type == 'application/pdf':
-        images = convert_from_bytes(datafile.read())
-        for idx, img in enumerate(images):
+        pdf_data = datafile.read()
+        pdf_document = fitz.open("pdf", pdf_data)
+        for idx, page in enumerate(pdf_document):
+            pix = page.get_pixmap()
+            img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
             st.subheader(f"Page {idx + 1}")
             st.image(img, width=600)
     elif datafile.type in ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']:
@@ -137,8 +146,7 @@ if datafile is not None:
             st.write(paragraph.text)
             if idx > 10:  # Limit the number of paragraphs displayed
                 break
-
-                
+             
     # Add this line before the "Create input text box for user to send messages" line
     progress_bar = st.progress(0)
 
