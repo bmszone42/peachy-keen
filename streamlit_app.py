@@ -13,6 +13,8 @@ from io import BytesIO
 import docx
 import requests
 
+os.environ["PATH"] += os.pathsep + "/usr/bin"
+
 st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
 custom_css = """
 <style>
