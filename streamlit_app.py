@@ -58,15 +58,14 @@ def get_bot_response(user_query, index):
     return str(response)
 
 # Show the avatar selected in the sidebar
-@st.cache_data
+#@st.cache_data
 def display_avatar_in_sidebar(avatar_style, seed):
     avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
     st.sidebar.image(avatar_url, caption=f'Your Avatar is  seed: {seed}', use_column_width=True)
  
 def update_avatar():
     st.session_state.user_avatar_seed = st.session_state.avatar_seed
-    #display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
-
+    
 def select_avatar_seed():
     if "user_avatar_seed" not in st.session_state:
         st.session_state.user_avatar_seed = random.randint(100, 999)
