@@ -127,7 +127,9 @@ else:
     # This is the first run
     pass
     
-# Create a list to store messages
+if 'user_avatar_seed' not in st.session_state:
+    st.session_state['user_avatar_seed'] = None
+
 st.sidebar.title("Settings")
 
 # Display the avatar in the sidebar
