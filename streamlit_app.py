@@ -7,14 +7,11 @@ from streamlit_chat import message
 from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader
 import docx2txt
 import PyPDF2
-#from pdf2image import convert_from_path, convert_from_bytes
 from PIL import Image
 from io import BytesIO
 import docx
 import requests
 import fitz
-
-os.environ["PATH"] += os.pathsep + "/usr/bin"
 
 st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
 custom_css = """
@@ -38,11 +35,9 @@ custom_css = """
 
 st.markdown(custom_css, unsafe_allow_html=True)
 
-
 buff, col, buff2 = st.columns([1,3,1])
-# openai_key = col.text_input('OpenAI Key:')
-# os.environ["OPENAI_API_KEY"] = openai_key
-
+openai_key = col.text_input('OpenAI Key:')
+os.environ["OPENAI_API_KEY"] = openai_key
 
 if 'all_messages' not in st.session_state:
     st.session_state.all_messages = []
@@ -127,11 +122,6 @@ if datafile is not None:
     
      # Add a file preview
     st.markdown("**File Preview:**")
-#     if datafile.type == 'application/pdf':
-#         images = convert_from_bytes(datafile.read())
-#         for idx, img in enumerate(images):
-#             st.subheader(f"Page {idx + 1}")
-#             st.image(img, width=600)
     if datafile.type == 'application/pdf':
         pdf_data = datafile.read()
         pdf_document = fitz.open("pdf", pdf_data)
@@ -144,7 +134,7 @@ if datafile is not None:
         doc = docx.Document(BytesIO(datafile.read()))
         for idx, paragraph in enumerate(doc.paragraphs):
             st.write(paragraph.text)
-            if idx > 10:  # Limit the number of paragraphs displayed
+            if idx > 6:  # Limit the number of paragraphs displayed
                 break
              
     # Add this line before the "Create input text box for user to send messages" line
