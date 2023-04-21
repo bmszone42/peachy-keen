@@ -143,22 +143,17 @@ datafile = st.sidebar.file_uploader("Upload your doc", type=['docx', 'doc', 'pdf
 if 'file_names' not in st.session_state:
     st.session_state.file_names = []
 
-display_loaded_files()
-
 if datafile is not None:
     if not os.path.exists('./data'):
         os.mkdir('./data')
     save_uploaded_file(datafile)
 
     new_documents = SimpleDirectoryReader('data').load_data([datafile.name])
-    
-    if 'file_names' not in st.session_state:
-        st.session_state.file_names = []
+    new_index = GPTSimpleVectorIndex.from_documents(new_documents)
 
     if index_option == "Reindex Files":
         documents = SimpleDirectoryReader('data').load_data()
         st.session_state.index = GPTSimpleVectorIndex.from_documents(documents)
-        st.session_state.file_names = [doc.metadata["file_name"] for doc in documents]
         st.session_state.index.save_to_disk('index.json')
         st.sidebar.success('Reindexed files successfully.')
         
@@ -171,14 +166,14 @@ if datafile is not None:
         new_documents = SimpleDirectoryReader('data').load_data()
         for doc in new_documents:
             st.session_state.index.insert(doc)
-        st.session_state.file_names.extend([doc.metadata["file_name"] for doc in new_documents])
         st.session_state.index.save_to_disk('index.json')
         st.sidebar.success('New file added to index successfully.')
 
+    st.session_state.file_names.extend([os.path.basename(file_name) for file_name in new_documents])
+
     # Display the full list of loaded files in the sidebar
-    if 'index' in st.session_state:
-        display_loaded_files(st.session_state.index)
-    
+    display_loaded_files()
+
     # Add a file preview
     st.markdown("**File Preview:**")
     if datafile.type == 'application/pdf':
