@@ -80,17 +80,17 @@ def get_bot_response(user_query, index):
 
 # Show the avatar selected in the sidebar
 #@st.cache_data(experimental_allow_widgets=True)
-def display_avatar_in_sidebar(avatar_style, seed):
+def display_avatar_in_sidebar(avatar_style):
     if "user_avatar_seed" not in st.session_state:
         st.session_state.user_avatar_seed = random.randint(100, 999)
-    avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
-    st.sidebar.image(avatar_url, caption=f'Your Avatar is  seed: {seed}', use_column_width=True)
+    avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{st.session_state.user_avatar_seed}.svg'
+    st.sidebar.image(avatar_url, caption=f'Your Avatar is seed: {st.session_state.user_avatar_seed}', use_column_width=True)
 
 
 def update_avatar():
     if st.session_state.avatar_seed != st.session_state.user_avatar_seed:
         st.session_state.user_avatar_seed = st.session_state.avatar_seed
-        display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
+        display_avatar_in_sidebar("adventurer")
 
 def select_avatar_seed():
     if "user_avatar_seed" not in st.session_state:
@@ -105,7 +105,7 @@ def select_avatar_seed():
     st.session_state.user_avatar_seed = st.session_state.avatar_seed
 
 # Display the avatar in the sidebar
-display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
+display_avatar_in_sidebar("adventurer")
 
 # Show the settings in the sidebar
 select_avatar_seed()
