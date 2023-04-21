@@ -63,8 +63,8 @@ def select_avatar_seed():
         st.session_state.user_avatar_seed = random.randint(100, 999)
 
     st.sidebar.subheader("Avatar Settings")
-    col1, col2 = st.sidebar.columns([1, 1])
-    user_avatar_seed = col1.slider("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed, label_visibility = 'visible')
+    col1, col2 = st.sidebar.columns([2, 1])
+    user_avatar_seed = col1.slider("Choose your avatar seed", min_value=100, max_value=999, value=st.session_state.user_avatar_seed, label_visibility = 'visible', help('Choose your Avatar')
 
     st.session_state.user_avatar_seed = user_avatar_seed
 
