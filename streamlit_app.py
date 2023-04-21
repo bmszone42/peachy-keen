@@ -13,17 +13,6 @@ import docx
 import requests
 import fitz
 
-# # Initialize session state
-# if 'initialized' not in st.session_state:
-#     st.session_state['initialized'] = True
-
-# if '_is_rerun' in st.session_state:
-#     # This is a rerun
-#     pass
-# else:
-#     # This is the first run
-#     pass
-    
     
 st.markdown("<h1 style='text-align: center; color: green;'>Llamalytics Buddy 🦙📊</h1>", unsafe_allow_html=True)
 custom_css = """
@@ -71,11 +60,10 @@ def get_bot_response(user_query, index):
 # Show the avatar selected in the sidebar
 def display_avatar_in_sidebar(avatar_style, seed):
     avatar_url = f'https://avatars.dicebear.com/api/{avatar_style}/{seed}.svg'
-    st.sidebar.image(avatar_url, caption="Your Avatar", use_column_width=True)
+    st.sidebar.image(avatar_url, caption=f'Your Avatar is  seed: {seed}', use_column_width=True)
 
 def update_avatar():
     st.session_state.user_avatar_seed = st.session_state.avatar_seed
-    st.session_state._is_rerun = True
     
 def select_avatar_seed():
     if "user_avatar_seed" not in st.session_state:
@@ -129,16 +117,12 @@ def send_message(user_query, all_messages):
 if 'user_avatar_seed' not in st.session_state:
     st.session_state['user_avatar_seed'] = None
 
-st.sidebar.title("Settings")
 
-# # Display the avatar in the sidebar
-# with st.sidebar.container():
+# Display the avatar in the sidebar
 display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
 
 # Show the settings in the sidebar
 select_avatar_seed()
-# if st.session_state._is_rerun:
-#     st.experimental_rerun()
 
 datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
 if datafile is not None:
