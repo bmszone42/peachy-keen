@@ -70,6 +70,8 @@ def update_avatar():
 def select_avatar_seed():
     if "user_avatar_seed" not in st.session_state:
         st.session_state.user_avatar_seed = random.randint(100, 999)
+        
+    display_avatar_in_sidebar("adventurer", st.session_state.user_avatar_seed)
 
     st.sidebar.subheader("Avatar Settings")
 
