@@ -138,7 +138,7 @@ def display_loaded_files():
 
 index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New Files"))
 
-datafile = st.sidebar.file_uploader("Upload your doc", type=['docx', 'doc', 'pdf'])
+datafile = st.sidebar.file_uploader("Upload your doc", type=['docx', 'doc', 'pdf'],accept_multiple_files=True)
 
 if 'file_names' not in st.session_state:
     st.session_state.file_names = []
