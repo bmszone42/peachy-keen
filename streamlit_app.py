@@ -133,7 +133,7 @@ select_avatar_seed()
 
 index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New Files"))
 
-datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
+datafile = st.sidebar.file_uploader("Upload your doc", type=['docx', 'doc', 'pdf'])
 
 if datafile is not None:
     if not os.path.exists('./data'):
@@ -142,28 +142,9 @@ if datafile is not None:
 
     if index_option == "Reindex Files":
         documents = SimpleDirectoryReader('data').load_data()
-        #st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
-        if os.path.exists('index.json'):
-            st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
-        else:
-            st.session_state.index = None
-            
-        if st.session_state.index is not None:
-            st.session_state.index.save_to_disk('index.json')
-        #st.session_state.index.save_to_disk('index.json')
-
-        if 'index' not in st.session_state:
-            st.session_state.index = None
-        if st.session_state.index is None:
-            st.session_state.index = GPTSimpleVectorIndex.from_documents(documents)
-
-    elif index_option == "Add New Files":
-        new_documents = SimpleDirectoryReader('data').load_data()
-        if 'index' not in st.session_state or st.session_state.index is None:
-            st.session_state.index = GPTSimpleVectorIndex.from_documents(new_documents)
-        else:
-            st.session_state.index.add_documents(new_documents)
-            st.session_state.index.save_to_disk('index.json')
+        st.session_state.index = GPTSimpleVectorIndex.from_documents(documents)
+        st.session_state.index.save_to_disk('index.json')
+        st.sidebar.success('Reindexed files successfully.')
 
     # Add a file preview
     st.markdown("**File Preview:**")
@@ -181,22 +162,101 @@ if datafile is not None:
             st.write(paragraph.text)
             if idx > 6:  # Limit the number of paragraphs displayed
                 break
+
+# Check if index exists in session state or load from disk, otherwise create a new index
+if 'index' not in st.session_state:
+    if os.path.exists('index.json'):
+        st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
+    else:
+        if not os.path.exists('./data'):
+            os.mkdir('./data')
+        documents = SimpleDirectoryReader('data').load_data()
+        st.session_state.index = GPTSimpleVectorIndex.from_documents(documents)
+        st.session_state.index.save_to_disk('index.json')
+
+# Add this line before the "Create input text box for user to send messages" line
+progress_bar = st.progress(0)
+
+# Create input text box for user to send messages
+user_query = st.text_input("You: ", "", key="input")
+
+# Create a button to send messages
+send_button = st.button("Send")
+
+# Send message when button is clicked
+if send_button:
+    send_message(user_query, st.session_state.all_messages)
+    display_messages(st.session_state.all_messages)
+    st.markdown(f"LLM Tokens Used: {st.session_state.index.service_context.llm_predictor._last_token_usage}")
+    st.markdown(f"Embedding Tokens Used: {st.session_state.index.service_context.embed_model._last_token_usage}")
+
+# index_option = st.sidebar.radio("Select an option:", ("Reindex Files", "Add New Files"))
+
+# datafile = st.sidebar.file_uploader("Upload your doc",type=['docx', 'doc', 'pdf'])
+
+# if datafile is not None:
+#     if not os.path.exists('./data'):
+#         os.mkdir('./data')
+#     save_uploaded_file(datafile)
+
+#     if index_option == "Reindex Files":
+#         documents = SimpleDirectoryReader('data').load_data()
+#         #st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
+#         if os.path.exists('index.json'):
+#             st.session_state.index = GPTSimpleVectorIndex.load_from_disk('index.json')
+#         else:
+#             st.session_state.index = None
+            
+#         if st.session_state.index is not None:
+#             st.session_state.index.save_to_disk('index.json')
+#         #st.session_state.index.save_to_disk('index.json')
+
+#         if 'index' not in st.session_state:
+#             st.session_state.index = None
+#         if st.session_state.index is None:
+#             st.session_state.index = GPTSimpleVectorIndex.from_documents(documents)
+
+#     elif index_option == "Add New Files":
+#         new_documents = SimpleDirectoryReader('data').load_data()
+#         if 'index' not in st.session_state or st.session_state.index is None:
+#             st.session_state.index = GPTSimpleVectorIndex.from_documents(new_documents)
+#         else:
+#             st.session_state.index.add_documents(new_documents)
+#             st.session_state.index.save_to_disk('index.json')
+
+#     # Add a file preview
+#     st.markdown("**File Preview:**")
+#     if datafile.type == 'application/pdf':
+#         pdf_data = datafile.read()
+#         pdf_document = fitz.open("pdf", pdf_data)
+#         for idx, page in enumerate(pdf_document):
+#             pix = page.get_pixmap()
+#             img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+#             st.subheader(f"Page {idx + 1}")
+#             st.image(img, width=600)
+#     elif datafile.type in ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']:
+#         doc = docx.Document(BytesIO(datafile.read()))
+#         for idx, paragraph in enumerate(doc.paragraphs):
+#             st.write(paragraph.text)
+#             if idx > 6:  # Limit the number of paragraphs displayed
+#                 break
+
              
-    # Add this line before the "Create input text box for user to send messages" line
-    progress_bar = st.progress(0)
+#     # Add this line before the "Create input text box for user to send messages" line
+#     progress_bar = st.progress(0)
 
-    # Create input text box for user to send messages
-    user_query = st.text_input("You: ","", key= "input")
+#     # Create input text box for user to send messages
+#     user_query = st.text_input("You: ","", key= "input")
 
-    # Create a button to send messages
-    send_button = st.button("Send")
+#     # Create a button to send messages
+#     send_button = st.button("Send")
 
-    # Send message when button is clicked
-    if send_button:
-        send_message(user_query, st.session_state.all_messages)
-        display_messages(st.session_state.all_messages)
-        if st.session_state.all_messages:
-            st.markdown(f"LLM Tokens Used: {st.session_state.index.service_context.llm_predictor._last_token_usage}")
-            st.markdown(f"Embedding Tokens Used: {st.session_state.index.service_context.embed_model._last_token_usage}")
+#     # Send message when button is clicked
+#     if send_button:
+#         send_message(user_query, st.session_state.all_messages)
+#         display_messages(st.session_state.all_messages)
+#         if st.session_state.all_messages:
+#             st.markdown(f"LLM Tokens Used: {st.session_state.index.service_context.llm_predictor._last_token_usage}")
+#             st.markdown(f"Embedding Tokens Used: {st.session_state.index.service_context.embed_model._last_token_usage}")
 
     
