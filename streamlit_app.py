@@ -4,7 +4,7 @@ import time
 import streamlit as st
 from datetime import datetime
 from streamlit_chat import message
-from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader
+from llama_index import GPTSimpleVectorIndex, SimpleDirectoryReader, Document
 import docx2txt
 from PIL import Image
 from io import BytesIO
