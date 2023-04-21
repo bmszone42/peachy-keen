@@ -164,10 +164,11 @@ if datafile is not None:
             else:
                 st.session_state.index = GPTSimpleVectorIndex.from_documents([])
         new_documents = SimpleDirectoryReader('data').load_data()
-        merged_documents = merge_documents(st.session_state.index._documents, new_documents)
+        merged_documents = merge_documents(st.session_state.index.get_documents(), new_documents)
         st.session_state.index = GPTSimpleVectorIndex.from_documents(merged_documents)
         st.session_state.index.save_to_disk('index.json')
         st.sidebar.success('New file added to index successfully.')
+
 
     # Add a file preview
     st.markdown("**File Preview:**")
